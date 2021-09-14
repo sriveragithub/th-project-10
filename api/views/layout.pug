@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+html(lang="en" dir="ltr")
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='x-ua-compatible', content='ie=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title Skyler Rivera Portfolio Site
+    link(href='https://fonts.googleapis.com/css?family=Merriweather:300,400,400i,700,800', rel='stylesheet')
+    link(rel='stylesheet', href='/static/css/normalize.css')
+    link(rel='stylesheet', href='/static/css/styles.css')
+
+  body
+    #my-info.sidebar
+      .sidebar-info-box
+        br
+        .thumbnail-box
+          img.thumbnail(src='http://localhost:3000/static/images/me.png', alt='')
+        .dev-intro-box
+
+          h5 Skyler Rivera
+
+          p I am a pragmatic developer specialized in creating Full Stack responsive web applications from scratch. I am a graduate from the Digital Crafts bootcamp in Atlanta, GA where I gathered the skills necessary to build and scale responsive web applications. My goal is to be an immediate asset to any SaaS or software company that I apply for. I pay attention to the details and I am always making an effort to be mindful of the skills I haven't fully developed to identify new learning opportunities. Outside of coding, my passions include 3D art, bike riding, and music.
+
+          a(href='about') Learn More &rarr;
+
+    .wrapper
+      .header
+        .header-info-box
+          button#menu-icon.menu-icon(type='button' data-toggle='my-info')
+
+          span Skyler Rivera
+
+      block content
+
+  script(src='/static/js/script.js')
