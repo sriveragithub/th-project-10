@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 const Courses = () => {
@@ -20,10 +21,10 @@ const Courses = () => {
   if (data.length) {
     courses = data.map((course) => {
       return (
-        <a className="course--module course--link" href="course-detail.html" key={course.id}>
+        <Link className="course--module course--link" to={`/courses/${course.id}`} key={course.id}>
           <h2 className="course--label">Course</h2>
           <h3 className="course--title">{course.title}</h3>
-        </a>
+        </Link>
       );
     });
   } else {
