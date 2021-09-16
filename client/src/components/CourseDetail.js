@@ -19,8 +19,11 @@ const CourseDetail = ({match}) => {
 
   let materials
   if (!isLoading) {
-    const materialsArray = data.materialsNeeded.split('\n')
-    materials = materialsArray.map(material => <li>{material}</li>)
+    if (data.materialsNeeded) {
+      const fixedMaterialsString = data.materialsNeeded.replace(/\*/g, '').trim()
+      const materialsArray = fixedMaterialsString.split('\n')
+      materials = materialsArray.map((material, i) => <li key={i}>{material}</li>)  
+    }
   }
   
 
