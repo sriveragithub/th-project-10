@@ -40,9 +40,9 @@ const Courses = () => {
           : courses
         }
 
-        <a
+        <Link
           className="course--module course--add--module"
-          href="create-course.html"
+          to="/courses/create"
         >
           <span className="course--add--title">
             <svg
@@ -57,7 +57,7 @@ const Courses = () => {
             </svg>
             New Course
           </span>
-        </a>
+        </Link>
       </div>
     </main>
   );
