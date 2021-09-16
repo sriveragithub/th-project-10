@@ -8,6 +8,7 @@ import {
 import CourseDetail from './components/CourseDetail';
 import Courses from './components/Courses'
 import Header from './components/Header'
+import UserSignIn from './components/UserSignIn'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Courses} />
           <Route path="/courses/:id" component={CourseDetail} />
+          <Route path="/signin" component={UserSignIn} />
         </Switch>
       </div>
     </BrowserRouter>
