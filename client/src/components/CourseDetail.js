@@ -15,7 +15,7 @@ const CourseDetail = ({match}) => {
       })
       .catch(err => console.log('Error fetching and parsing data', err))
       .finally(() => setIsLoading(false))
-  }, [])
+  }, [match.params.id])
 
   let materials
   if (!isLoading) {
@@ -45,7 +45,7 @@ const CourseDetail = ({match}) => {
 
       {
         isLoading
-        ? <p>Loading course details. One moment...</p>
+        ? <p>Loading course details! One moment...</p>
         : <div className="wrap">
             <h2>Course Detail</h2>
             <form>

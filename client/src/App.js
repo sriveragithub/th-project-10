@@ -12,6 +12,7 @@ import UpdateCourse from './components/UpdateCourse'
 import Header from './components/Header'
 import UserSignIn from './components/UserSignIn'
 import UserSignUp from './components/UserSignUp'
+import UserSignOut from './components/UserSignOut'
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/courses/:id/update" component={UpdateCourse} />
           <Route path="/signin" component={UserSignIn} />
           <Route path="/signup" component={UserSignUp} />
+          <Route path="/signout" component={UserSignOut} />
         </Switch>
       </div>
     </BrowserRouter>

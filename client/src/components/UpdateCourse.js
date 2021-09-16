@@ -22,7 +22,7 @@ const UpdateCourse = (props) => {
       })
       .catch(err => console.log('Error fetching and parsing data', err))
       .finally(() => setIsLoading(false))
-  }, [])
+  }, [props.match.params.id])
 
   const submit = (e) => {
     e.preventDefault()
