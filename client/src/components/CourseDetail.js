@@ -31,9 +31,9 @@ const CourseDetail = ({match}) => {
     <main>
       <div className="actions--bar">
         <div className="wrap">
-          <a className="button" href="update-course.html">
+          <Link className="button" to={`/courses/${match.params.id}/update`}>
             Update Course
-          </a>
+          </Link>
           <a className="button" href="#">
             Delete Course
           </a>
