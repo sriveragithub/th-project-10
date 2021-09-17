@@ -51,16 +51,18 @@ export const Provider = (props) => {
   }
 
   const signUp = async (user) => {
-    const res = await api(`/api/users`, 'POST', user)
+    console.log(user)
+
+    const res = await axios.post(`http://localhost:5000/api/users`,
+    user,
+    {
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      }
+    })
+
     if (res.status === 201) {
-      value.actions.signIn(user.emailAddress, user.password)
-        .then(() => {
-          props.history.push('/')
-        })
-        .catch(err => {
-          console.warn(err)
-          props.history.push('/error')
-        })
+      return []
     } else if (res.status === 400) {
       return res.json().then(data => {
         return data.errors

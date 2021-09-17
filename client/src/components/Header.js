@@ -15,7 +15,7 @@ const Header = (props) => {
         <nav>
           {
             authenticatedUser
-            ? <ul class="header--signedin">
+            ? <ul className="header--signedin">
                 <li>Welcome, {`${authenticatedUser.firstName} ${authenticatedUser.lastName}`}!</li>
                 <li><Link to="/signout">Sign Out</Link></li>
               </ul>

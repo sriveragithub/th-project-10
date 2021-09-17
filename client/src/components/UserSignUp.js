@@ -5,12 +5,29 @@ const UserSignUp = (props) => {
 
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-  const [email, setEmail] = useState('')
+  const [emailAddress, setEmailAddress] = useState('')
   const [password, setPassword] = useState('')
+  const [errors, setErrors] = useState([])
 
   const submit = (e) => {
     e.preventDefault()
-    console.log(firstName, lastName, email, password)
+    const user = {
+      firstName,
+      lastName,
+      emailAddress,
+      password
+    }
+    props.context.actions.signUp(user)
+      .then(errors => {
+        if (errors.length) {
+          setErrors(errors)
+        } else {
+          props.context.actions.signIn(user.emailAddress, user.password)
+            .then(() => {
+              props.history.push('/')
+            })
+        }
+      })
   }
 
   const cancel = () => {
@@ -23,12 +40,25 @@ const UserSignUp = (props) => {
             <h2>Sign Up</h2>
             
             <form onSubmit={submit}>
+
+                {
+                  errors.length
+                  ? <div className="validation--errors">
+                      <h3>Validation Errors</h3>
+                      <ul>
+                        <li>Please provide a value for "Title"</li>
+                        <li>Please provide a value for "Description"</li>
+                      </ul>
+                    </div>
+                  : null
+                }
+
                 <label htmlFor="firstName">First Name</label>
                 <input id="firstName" name="firstName" type="text" onChange={e => {setFirstName(e.target.value)}} />
                 <label htmlFor="lastName">Last Name</label>
                 <input id="lastName" name="lastName" type="text" onChange={e => {setLastName(e.target.value)}} />
                 <label htmlFor="emailAddress">Email Address</label>
-                <input id="emailAddress" name="emailAddress" type="email" onChange={e => {setEmail(e.target.value)}} />
+                <input id="emailAddress" name="emailAddress" type="email" onChange={e => {setEmailAddress(e.target.value)}} />
                 <label htmlFor="password">Password</label>
                 <input id="password" name="password" type="password" onChange={e => {setPassword(e.target.value)}} />
                 <button className="button" type="submit">Sign Up</button>

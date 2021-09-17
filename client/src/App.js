@@ -17,6 +17,7 @@ import UserSignOut from './components/UserSignOut'
 import withContext from './Context'
 
 const UserSignInWithContext = withContext(UserSignIn)
+const UserSignUpWithContext = withContext(UserSignUp)
 const UserSignOutWithContext = withContext(UserSignOut)
 const HeaderWithContext = withContext(Header)
 
@@ -31,7 +32,7 @@ function App() {
           <Route exact path="/courses/:id" component={CourseDetail} />
           <Route path="/courses/:id/update" component={UpdateCourse} />
           <Route path="/signin" component={UserSignInWithContext} />
-          <Route path="/signup" component={UserSignUp} />
+          <Route path="/signup" component={UserSignUpWithContext} />
           <Route path="/signout" component={UserSignOutWithContext} />
         </Switch>
       </div>
