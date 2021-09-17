@@ -8,7 +8,8 @@ const UserSignIn = (props) => {
 
   const submit = (e) => {
     e.preventDefault()
-    console.log(email, password)
+    props.context.actions.signIn(email, password)
+    console.log(props)
   }
 
   const cancel = () => {
