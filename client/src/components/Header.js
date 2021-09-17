@@ -1,7 +1,11 @@
 import React from "react";
 import { Link } from 'react-router-dom'
 
-const Header = () => {
+const Header = (props) => {
+
+  const { authenticatedUser } = props.context
+  console.log(authenticatedUser)
+
   return (
     <header>
       <div className="wrap header--flex">
@@ -9,10 +13,17 @@ const Header = () => {
           <Link to="/">Courses</Link>
         </h1>
         <nav>
-          <ul className="header--signedout">
-            <li><Link to="/signup">Sign Up</Link></li>
-            <li><Link to="/signin">Sign In</Link></li>
-          </ul>
+          {
+            authenticatedUser
+            ? <ul class="header--signedin">
+                <li>Welcome, {`${authenticatedUser.firstName} ${authenticatedUser.lastName}`}!</li>
+                <li><Link to="/signout">Sign Out</Link></li>
+              </ul>
+            : <ul className="header--signedout">
+                <li><Link to="/signup">Sign Up</Link></li>
+                <li><Link to="/signin">Sign In</Link></li>
+              </ul>
+          }
         </nav>
       </div>
     </header>

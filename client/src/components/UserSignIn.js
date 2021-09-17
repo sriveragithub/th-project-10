@@ -10,6 +10,7 @@ const UserSignIn = (props) => {
     e.preventDefault()
     props.context.actions.signIn(email, password)
     console.log(props)
+    props.history.push('/')
   }
 
   const cancel = () => {

@@ -18,12 +18,13 @@ import withContext from './Context'
 
 const UserSignInWithContext = withContext(UserSignIn)
 const UserSignOutWithContext = withContext(UserSignOut)
+const HeaderWithContext = withContext(Header)
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <Header />
+        <HeaderWithContext />
         <Switch>
           <Route exact path="/" component={Courses} />
           <Route exact path="/courses/create" component={CreateCourse} />
