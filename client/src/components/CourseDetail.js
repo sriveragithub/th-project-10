@@ -2,20 +2,24 @@ import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 
-const CourseDetail = ({match}) => {
+const CourseDetail = (props) => {
 
   const [data, setData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [isAuthenticated] = useState(props.context.authenticatedUser)
+
+  console.log(props)
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/courses/${match.params.id}`)
+    axios.get(`http://localhost:5000/api/courses/${props.match.params.id}`)
       .then(res => {
         setData(res.data)
         console.log(res.data)
+        console.log(res.data.User.id)
       })
       .catch(err => console.log('Error fetching and parsing data', err))
       .finally(() => setIsLoading(false))
-  }, [match.params.id])
+  }, [props.match.params.id])
 
   let materials
   if (!isLoading) {
@@ -25,18 +29,31 @@ const CourseDetail = ({match}) => {
       materials = materialsArray.map((material, i) => <li key={i}>{material}</li>)  
     }
   }
-  
 
   return (
     <main>
       <div className="actions--bar">
         <div className="wrap">
-          <Link className="button" to={`/courses/${match.params.id}/update`}>
-            Update Course
-          </Link>
-          <a className="button" href="#">
-            Delete Course
-          </a>
+        {
+          isAuthenticated
+          ? <>
+            <Link className="button" to={`/courses/${props.match.params.id}/update`}>
+              Update Course
+            </Link>
+          </>
+          : null
+        }
+        {
+          isLoading
+          ? null
+          : !isAuthenticated
+            ? null
+            : isAuthenticated.id === data.User.id
+              ? <a className="button" href="#">
+                  Delete Course
+                </a>
+              : null
+        }
           <Link className="button button-secondary" to="/">
             Return to List
           </Link>
