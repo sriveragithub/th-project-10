@@ -1,16 +1,54 @@
 import React, { useState } from "react";
+import axios from 'axios'
 
 const CreateCourse = (props) => {
 
+  console.log(props)
+
   const [title, setTitle] = useState('')
-  const [desc, setDesc] = useState('')
-  const [time, setTime] = useState('')
-  const [materials, setMaterials] = useState('')
+  const [description, setDescription] = useState('')
+  const [estimatedTime, setEstimatedTime] = useState('')
+  const [materialsNeeded, setMaterialsNeeded] = useState('')
+  const [userId, setUserId] = useState(props.context.authenticatedUser ? props.context.authenticatedUser.id : null)
   const [errors, setErrors] = useState([])
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault()
-    console.log(title, desc, time, materials)
+    console.log(title, description, estimatedTime, materialsNeeded, userId)
+
+    const body = {
+      title,
+      description,
+      estimatedTime,
+      materialsNeeded,
+      userId
+    }
+
+    await axios.post('http://localhost:5000/api/courses',
+    body,
+    {
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+      auth: {
+        username: props.context.authenticatedUser.emailAddress,
+        password: props.context.hashedPassword
+      }
+    })
+      .then((errors) => {
+      if (errors.length) {
+        console.log(errors);
+        setErrors(errors);
+      } else {
+        console.log(`Course "${title}" successfully created`);
+        props.history.push("/");
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      props.history.push("/error");
+    });
+
   }
 
   const cancel = () => {
@@ -44,7 +82,7 @@ const CreateCourse = (props) => {
               <textarea
                 id="courseDescription"
                 name="courseDescription"
-                onChange={e => {setDesc(e.target.value)}}
+                onChange={e => {setDescription(e.target.value)}}
               ></textarea>
             </div>
             <div>
@@ -53,11 +91,11 @@ const CreateCourse = (props) => {
                 id="estimatedTime"
                 name="estimatedTime"
                 type="text"
-                onChange={e => {setTime(e.target.value)}}
+                onChange={e => {setEstimatedTime(e.target.value)}}
               />
 
               <label htmlFor="materialsNeeded">Materials Needed</label>
-              <textarea id="materialsNeeded" name="materialsNeeded" onChange={e => {setMaterials(e.target.value)}}></textarea>
+              <textarea id="materialsNeeded" name="materialsNeeded" onChange={e => {setMaterialsNeeded(e.target.value)}}></textarea>
             </div>
           </div>
           <button className="button" type="submit">

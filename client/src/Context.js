@@ -9,6 +9,7 @@ export const Provider = (props) => {
 
   const cookie = Cookies.get('authenticatedUser')
   const [authenticatedUser, setAuthenticatedUser] = useState(cookie ? JSON.parse(cookie) : null)
+  const [hashedPassword, setHashedPassword] = useState('')
   
 
   const api = (path, method = 'GET', body = null, requiresAuth = false, credentials = null) => {
@@ -40,6 +41,7 @@ export const Provider = (props) => {
       const user = res.data
       if (user !== null) {
         setAuthenticatedUser(user)
+        setHashedPassword(password)
         Cookies.set('authenticatedUser', JSON.stringify(user), { expires: 1 })
       }
       return user
@@ -74,11 +76,13 @@ export const Provider = (props) => {
 
   const signOut = () => {
     setAuthenticatedUser(null)
+    setHashedPassword(null)
     Cookies.remove('authenticatedUser')
   }
 
   const value = {
     authenticatedUser,
+    hashedPassword,
     actions: {
       signIn,
       signOut,
