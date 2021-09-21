@@ -7,8 +7,7 @@ const CourseDetail = (props) => {
   const [data, setData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [isAuthenticated] = useState(props.context.authenticatedUser)
-
-  console.log(props)
+  const [errors, setErrors] = useState([])
 
   useEffect(() => {
     axios.get(`http://localhost:5000/api/courses/${props.match.params.id}`)
@@ -30,6 +29,35 @@ const CourseDetail = (props) => {
     }
   }
 
+  const deleteCourse = async (e) => {
+    e.preventDefault()
+    console.log(`deleting course`)
+
+    await axios.delete(`http://localhost:5000/api/courses/${props.match.params.id}`,
+    {
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+      auth: {
+        username: props.context.authenticatedUser.emailAddress,
+        password: props.context.hashedPassword
+      }
+    })
+      .then((errors) => {
+      if (errors.length) {
+        console.log(errors);
+        setErrors(errors);
+      } else {
+        console.log(`Course successfully deleted!`);
+        props.history.push("/");
+      }
+      })
+      .catch((error) => {
+        console.log(error);
+        setErrors(error);
+      });
+  }
+
   return (
     <main>
       <div className="actions--bar">
@@ -49,7 +77,7 @@ const CourseDetail = (props) => {
           : !isAuthenticated
             ? null
             : isAuthenticated.id === data.User.id
-              ? <a className="button" href="#">
+              ? <a className="button" onClick={deleteCourse}>
                   Delete Course
                 </a>
               : null

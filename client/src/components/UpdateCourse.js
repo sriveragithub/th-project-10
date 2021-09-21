@@ -57,11 +57,11 @@ const UpdateCourse = (props) => {
         console.log(`Course "${title}" successfully updated!`);
         props.history.push("/");
       }
-    })
-    .catch((error) => {
-      console.log(error);
-      setErrors(error);
-    });
+      })
+      .catch((error) => {
+        console.log(error);
+        setErrors(error);
+      });
   }
 
   const cancel = () => {
