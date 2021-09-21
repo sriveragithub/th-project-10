@@ -62,11 +62,13 @@ export const Provider = (props) => {
         'Content-Type': 'application/json; charset=utf-8',
       }
     })
+    console.log(res)
 
     if (res.status === 201) {
       return []
     } else if (res.status === 400) {
       return res.json().then(data => {
+        console.log(data.errors)
         return data.errors
       })
     } else {
