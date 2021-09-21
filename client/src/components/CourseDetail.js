@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import ReactMarkdown from 'react-markdown'
 
 const CourseDetail = (props) => {
 
@@ -19,15 +20,6 @@ const CourseDetail = (props) => {
       .catch(err => console.log('Error fetching and parsing data', err))
       .finally(() => setIsLoading(false))
   }, [props.match.params.id])
-
-  let materials
-  if (!isLoading) {
-    if (data.materialsNeeded) {
-      const fixedMaterialsString = data.materialsNeeded.replace(/\*/g, '').trim()
-      const materialsArray = fixedMaterialsString.split('\n')
-      materials = materialsArray.map((material, i) => <li key={i}>{material}</li>)  
-    }
-  }
 
   const deleteCourse = async (e) => {
     e.preventDefault()
@@ -100,9 +92,9 @@ const CourseDetail = (props) => {
                   <h4 className="course--name">{data.title}</h4>
                   <p>By {`${data.User.firstName} ${data.User.lastName}`}</p>
 
-                  <p>
+                  <ReactMarkdown>
                     {data.description}
-                  </p>
+                  </ReactMarkdown>
 
                 </div>
                 <div>
@@ -110,9 +102,9 @@ const CourseDetail = (props) => {
                   <p>{data.estimatedTime}</p>
 
                   <h3 className="course--detail--title">Materials Needed</h3>
-                  <ul className="course--detail--list">
-                    {materials}
-                  </ul>
+                  <ReactMarkdown>
+                    {data.materialsNeeded}
+                  </ReactMarkdown>
                 </div>
               </div>
             </form>
