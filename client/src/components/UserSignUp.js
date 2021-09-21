@@ -29,6 +29,7 @@ const UserSignUp = (props) => {
             })
         }
       })
+
   }
 
   const cancel = () => {

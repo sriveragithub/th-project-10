@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import axios from 'axios'
 import Cookies from 'js-cookie'
 
 const Context = React.createContext()
@@ -31,18 +30,18 @@ export const Provider = (props) => {
       options.headers['Authorization'] = `Basic ${encodedCredentials}`
     }
 
-    return axios(url, options);
+    return fetch(url, options);
   }
 
   const signIn = async (username, password) => {
     const res = await api(`/api/users`, 'GET', null, true, {username, password})
     if (res.status === 200) {
-      console.log(res)
-      const user = res.data
+      const user = res.json().then(data => data)
+      console.log(user)
       if (user !== null) {
         setAuthenticatedUser(user)
         setHashedPassword(password)
-        Cookies.set('authenticatedUser', JSON.stringify(user), { expires: 1 })
+        Cookies.set('authenticatedUser', user, { expires: 1 })
       }
       return user
     } else if (res.status === 401) {
@@ -55,14 +54,19 @@ export const Provider = (props) => {
   const signUp = async (user) => {
     console.log(user)
 
-    const res = await axios.post(`http://localhost:5000/api/users`,
-    user,
-    {
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-      }
-    })
-    console.log(res)
+    const res = await api(`/api/users`, 'POST', user)
+      // .catch(res => {
+      //   console.log(res)
+      // })
+
+    // const res = await axios.post(`http://localhost:5000/api/users`,
+    // user,
+    // {
+    //   headers: {
+    //     'Content-Type': 'application/json; charset=utf-8',
+    //   }
+    // })
+    // console.log(res)
 
     if (res.status === 201) {
       return []

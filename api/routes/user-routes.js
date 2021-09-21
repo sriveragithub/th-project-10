@@ -30,6 +30,7 @@ router.get('/', authenticateUser, asyncHandler(async (req, res) => {
 
 // A /api/users POST route that will create a new user, set the Location header to "/", and return a 201 HTTP status code and no content.
 router.post('/', asyncHandler(async (req, res) => {
+  console.log(req.body)
   try {
     await User.create(req.body);
     res.status(201)
@@ -40,6 +41,7 @@ router.post('/', asyncHandler(async (req, res) => {
 
     if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
       const errors = error.errors.map(err => err.message);
+      console.log(errors)
       res.status(400).json({ errors });   
     } else {
       throw error;
