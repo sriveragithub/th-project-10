@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios'
+import Data from '../Data'
 
 const UpdateCourse = (props) => {
+
+  const dataClass = new Data()
 
   const [data, setData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -9,7 +12,7 @@ const UpdateCourse = (props) => {
   const [description, setDescription] = useState(data.description)
   const [estimatedTime, setEstimatedTime] = useState(data.estimatedTime)
   const [materialsNeeded, setMaterialsNeeded] = useState(data.materialsNeeded)
-  const [userId, setUserId] = useState(props.context.authenticatedUser ? props.context.authenticatedUser.id : null)
+  const [userId] = useState(props.context.authenticatedUser ? props.context.authenticatedUser.id : null)
   const [errors, setErrors] = useState([])
 
   useEffect(() => {
@@ -37,31 +40,16 @@ const UpdateCourse = (props) => {
       materialsNeeded,
       userId
     }
-
-    await axios.put(`http://localhost:5000/api/courses/${props.match.params.id}`,
-    body,
-    {
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-      auth: {
-        username: props.context.authenticatedUser.emailAddress,
-        password: props.context.hashedPassword
-      }
-    })
+    await dataClass.updateCourse(props.match.params.id, body, props.context.authenticatedUser.emailAddress, props.context.hashedPassword)
       .then((errors) => {
-      if (errors.length) {
-        console.log(errors);
-        setErrors(errors);
-      } else {
-        console.log(`Course "${title}" successfully updated!`);
-        props.history.push("/");
-      }
+        if (errors.length) {
+          console.log(errors);
+          setErrors(errors);
+        } else {
+          console.log(`Course "${title}" successfully updated`);
+          props.history.push("/");
+        }
       })
-      .catch((error) => {
-        console.log(error);
-        setErrors(error);
-      });
   }
 
   const cancel = () => {
@@ -81,8 +69,11 @@ const UpdateCourse = (props) => {
                 ? <div className="validation--errors">
                     <h3>Validation Errors</h3>
                     <ul>
-                      <li>Please provide a value for "Title"</li>
-                      <li>Please provide a value for "Description"</li>
+                      {
+                        errors.map((err, i) => {
+                          return <li key={i}>{err}</li>
+                        })
+                      }
                     </ul>
                   </div>
                 : <></>

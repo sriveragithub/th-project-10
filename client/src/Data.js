@@ -33,10 +33,10 @@ export default class Data {
     }
   }
 
-  async createUser(user) {
-    console.log(user)
+  async createCourse(course, username, password) {
+    console.log(course)
 
-    const res = await this.api(`/api/users`, 'POST', user)
+    const res = await this.api(`/api/courses`, 'POST', course, true, {username, password})
 
     if (res.status === 201) {
       return []
@@ -49,5 +49,23 @@ export default class Data {
       throw new Error()
     }
   }
-}
 
+  async updateCourse(id, course, username, password) {
+    console.log(course)
+
+    const res = await this.api(`/api/courses/${id}`, 'PUT', course, true, {username, password})
+    console.log(res)
+
+    if (res.status === 204) {
+      return []
+    } else if (res.status === 400) {
+      return res.json().then(data => {
+        console.log(data.errors)
+        return data.errors
+      })
+    } else {
+      throw new Error()
+    }
+  }
+
+}

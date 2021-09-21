@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import axios from 'axios'
+import Data from '../Data'
 
 const CreateCourse = (props) => {
 
+  const data = new Data()
   console.log(props)
 
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [estimatedTime, setEstimatedTime] = useState('')
   const [materialsNeeded, setMaterialsNeeded] = useState('')
-  const [userId, setUserId] = useState(props.context.authenticatedUser ? props.context.authenticatedUser.id : null)
+  const [userId] = useState(props.context.authenticatedUser ? props.context.authenticatedUser.id : null)
   const [errors, setErrors] = useState([])
 
   const submit = async (e) => {
@@ -24,31 +25,16 @@ const CreateCourse = (props) => {
       userId
     }
 
-    await axios.post('http://localhost:5000/api/courses',
-    body,
-    {
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-      auth: {
-        username: props.context.authenticatedUser.emailAddress,
-        password: props.context.hashedPassword
-      }
-    })
+    await data.createCourse(body, props.context.authenticatedUser.emailAddress, props.context.hashedPassword)
       .then((errors) => {
-      if (errors.length) {
-        console.log(errors);
-        setErrors(errors);
-      } else {
-        console.log(`Course "${title}" successfully created`);
-        props.history.push("/");
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-      props.history.push("/error");
-    });
-
+        if (errors.length) {
+          console.log(errors);
+          setErrors(errors);
+        } else {
+          console.log(`Course "${title}" successfully created`);
+          props.history.push("/");
+        }
+      })
   }
 
   const cancel = () => {
@@ -64,8 +50,11 @@ const CreateCourse = (props) => {
           ? <div className="validation--errors">
               <h3>Validation Errors</h3>
               <ul>
-                <li>Please provide a value for "Title"</li>
-                <li>Please provide a value for "Description"</li>
+                {
+                  errors.map((err, i) => {
+                    return <li key={i}>{err}</li>
+                  })
+                }
               </ul>
             </div>
           : <></>
