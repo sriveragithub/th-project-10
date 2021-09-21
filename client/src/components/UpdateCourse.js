@@ -6,27 +6,62 @@ const UpdateCourse = (props) => {
   const [data, setData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [title, setTitle] = useState(data.title)
-  const [desc, setDesc] = useState(data.description)
-  const [time, setTime] = useState(data.estimatedTime)
-  const [materials, setMaterials] = useState(data.materialsNeeded)
+  const [description, setDescription] = useState(data.description)
+  const [estimatedTime, setEstimatedTime] = useState(data.estimatedTime)
+  const [materialsNeeded, setMaterialsNeeded] = useState(data.materialsNeeded)
+  const [userId, setUserId] = useState(props.context.authenticatedUser ? props.context.authenticatedUser.id : null)
+  const [errors, setErrors] = useState([])
 
   useEffect(() => {
     axios.get(`http://localhost:5000/api/courses/${props.match.params.id}`)
       .then(res => {
         setData(res.data)
         setTitle(res.data.title)
-        setDesc(res.data.description)
-        setTime(res.data.estimatedTime)
-        setMaterials(res.data.materialsNeeded)
+        setDescription(res.data.description)
+        setEstimatedTime(res.data.estimatedTime)
+        setMaterialsNeeded(res.data.materialsNeeded)
         console.log(res.data)
       })
       .catch(err => console.log('Error fetching and parsing data', err))
       .finally(() => setIsLoading(false))
   }, [props.match.params.id])
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault()
-    console.log(title, desc, time, materials)
+    console.log(title, description, estimatedTime, materialsNeeded, userId)
+
+    const body = {
+      title,
+      description,
+      estimatedTime,
+      materialsNeeded,
+      userId
+    }
+
+    await axios.put(`http://localhost:5000/api/courses/${props.match.params.id}`,
+    body,
+    {
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+      auth: {
+        username: props.context.authenticatedUser.emailAddress,
+        password: props.context.hashedPassword
+      }
+    })
+      .then((errors) => {
+      if (errors.length) {
+        console.log(errors);
+        setErrors(errors);
+      } else {
+        console.log(`Course "${title}" successfully updated!`);
+        props.history.push("/");
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      setErrors(error);
+    });
   }
 
   const cancel = () => {
@@ -41,6 +76,17 @@ const UpdateCourse = (props) => {
           isLoading
           ? <p>Loading courses details! One moment...</p>
           : <form onSubmit={submit}>
+              {
+                errors.length
+                ? <div className="validation--errors">
+                    <h3>Validation Errors</h3>
+                    <ul>
+                      <li>Please provide a value for "Title"</li>
+                      <li>Please provide a value for "Description"</li>
+                    </ul>
+                  </div>
+                : <></>
+              }
               <div className="main--flex">
                 <div>
                   <label htmlFor="courseTitle">Course Title</label>
@@ -58,7 +104,7 @@ const UpdateCourse = (props) => {
                   <textarea 
                     id="courseDescription" 
                     name="courseDescription" 
-                    onChange={e => {setDesc(e.target.value)}}
+                    onChange={e => {setDescription(e.target.value)}}
                     defaultValue={data.description}
                   />
                 </div>
@@ -69,14 +115,14 @@ const UpdateCourse = (props) => {
                     name="estimatedTime"
                     type="text"
                     defaultValue={data.estimatedTime}
-                    onChange={e => {setTime(e.target.value)}}
+                    onChange={e => {setEstimatedTime(e.target.value)}}
                   />
 
                   <label htmlFor="materialsNeeded">Materials Needed</label>
                   <textarea 
                     id="materialsNeeded" 
                     name="materialsNeeded" 
-                    onChange={e => {setMaterials(e.target.value)}} 
+                    onChange={e => {setMaterialsNeeded(e.target.value)}} 
                     defaultValue={data.materialsNeeded}
                   />
                 </div>
