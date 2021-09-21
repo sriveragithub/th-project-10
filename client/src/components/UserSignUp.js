@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import Data from '../Data'
 
 const UserSignUp = (props) => {
+
+  const data = new Data()
 
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -17,7 +20,7 @@ const UserSignUp = (props) => {
       emailAddress,
       password
     }
-    props.context.actions.signUp(user)
+    data.createUser(user)
       .then(errors => {
         if (errors.length) {
           console.log(errors)
