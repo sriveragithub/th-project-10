@@ -9,8 +9,11 @@ const UserSignIn = (props) => {
   const submit = (e) => {
     e.preventDefault()
     props.context.actions.signIn(email, password)
-    console.log(props)
-    props.history.push('/')
+    if (props.history.length < 3) {
+      props.history.push('/')
+    } else {
+      props.history.goBack()
+    }
   }
 
   const cancel = () => {

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Cookies from 'js-cookie'
 import Data from './Data'
 
-const Context = React.createContext()
+export const Context = React.createContext()
 export const Consumer = Context.Consumer
 
 export const Provider = (props) => {
@@ -17,7 +17,7 @@ export const Provider = (props) => {
     if (user !== null) {
       setAuthenticatedUser(user)
       setHashedPassword(password)
-      Cookies.set('authenticatedUser', JSON.stringify(user), { expires: 15 })
+      Cookies.set('authenticatedUser', JSON.stringify(user), { expires: 1500 })
     }
   }
 

@@ -33,6 +33,23 @@ export default class Data {
     }
   }
 
+  async createUser(user) {
+    console.log(user)
+
+    const res = await this.api(`/api/users`, 'POST', user)
+
+    if (res.status === 201) {
+      return []
+    } else if (res.status === 400) {
+      return res.json().then(data => {
+        console.log(data.errors)
+        return data.errors
+      })
+    } else {
+      throw new Error()
+    }
+  }
+
   async createCourse(course, username, password) {
     console.log(course)
 

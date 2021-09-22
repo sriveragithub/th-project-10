@@ -8,7 +8,6 @@ const CourseDetail = (props) => {
   const [data, setData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [isAuthenticated] = useState(props.context.authenticatedUser)
-  const [errors, setErrors] = useState([])
 
   useEffect(() => {
     axios.get(`http://localhost:5000/api/courses/${props.match.params.id}`)
@@ -17,9 +16,12 @@ const CourseDetail = (props) => {
         console.log(res.data)
         console.log(res.data.User.id)
       })
-      .catch(err => console.log('Error fetching and parsing data', err))
+      .catch(err => {
+        console.log('Error fetching and parsing data', err)
+        props.history.push('/notfound')
+      })
       .finally(() => setIsLoading(false))
-  }, [props.match.params.id])
+  }, [props.match.params.id, props.history])
 
   const deleteCourse = async (e) => {
     e.preventDefault()
@@ -38,7 +40,6 @@ const CourseDetail = (props) => {
       .then((errors) => {
       if (errors.length) {
         console.log(errors);
-        setErrors(errors);
       } else {
         console.log(`Course successfully deleted!`);
         props.history.push("/");
@@ -46,7 +47,6 @@ const CourseDetail = (props) => {
       })
       .catch((error) => {
         console.log(error);
-        setErrors(error);
       });
   }
 
@@ -55,13 +55,17 @@ const CourseDetail = (props) => {
       <div className="actions--bar">
         <div className="wrap">
         {
-          isAuthenticated
-          ? <>
-            <Link className="button" to={`/courses/${props.match.params.id}/update`}>
-              Update Course
-            </Link>
-          </>
-          : null
+          isLoading
+          ? null
+          : !isAuthenticated
+            ? null
+            : props.context.authenticatedUser.id === data.User.id
+            ? <Link className="button" to={`/courses/${props.match.params.id}/update`}>
+                Update Course
+              </Link>
+            : <Link className="button" to={`/forbidden`}>
+                Update Course
+              </Link>
         }
         {
           isLoading
@@ -69,9 +73,9 @@ const CourseDetail = (props) => {
           : !isAuthenticated
             ? null
             : isAuthenticated.id === data.User.id
-              ? <a className="button" onClick={deleteCourse}>
+              ? <button className="button" onClick={deleteCourse}>
                   Delete Course
-                </a>
+                </button>
               : null
         }
           <Link className="button button-secondary" to="/">

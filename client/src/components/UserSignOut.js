@@ -1,9 +1,13 @@
+import { useEffect } from "react"
+
 const UserSignOut = (props) => {
-  const redirect = () => {
-    props.context.actions.signOut()
-    props.history.push('/')
-  }
-  redirect()
+  useEffect(() => {
+    const redirect = () => {
+      props.context.actions.signOut()
+      props.history.push('/')
+    }
+    redirect()
+  }, [props.context.actions, props.history])
   return null
 }
 
