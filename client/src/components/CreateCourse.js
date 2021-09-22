@@ -4,7 +4,6 @@ import Data from '../Data'
 const CreateCourse = (props) => {
 
   const data = new Data()
-  console.log(props)
 
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
@@ -15,7 +14,6 @@ const CreateCourse = (props) => {
 
   const submit = async (e) => {
     e.preventDefault()
-    console.log(title, description, estimatedTime, materialsNeeded, userId)
 
     const body = {
       title,
@@ -28,7 +26,6 @@ const CreateCourse = (props) => {
     await data.createCourse(body, props.context.authenticatedUser.emailAddress, props.context.hashedPassword)
       .then((errors) => {
         if (errors.length) {
-          console.log(errors);
           setErrors(errors);
         } else {
           console.log(`Course "${title}" successfully created`);

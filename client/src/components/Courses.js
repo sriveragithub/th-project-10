@@ -11,7 +11,6 @@ const Courses = () => {
     axios.get(`http://localhost:5000/api/courses`)
       .then(res => {
         setData(res.data.courses)
-        console.log(res.data.courses)
       })
       .catch(err => console.log('Error fetching and parsing data', err))
       .finally(() => setIsLoading(false))

@@ -13,8 +13,6 @@ const CourseDetail = (props) => {
     axios.get(`http://localhost:5000/api/courses/${props.match.params.id}`)
       .then(res => {
         setData(res.data)
-        console.log(res.data)
-        console.log(res.data.User.id)
       })
       .catch(err => {
         console.log('Error fetching and parsing data', err)
@@ -25,7 +23,6 @@ const CourseDetail = (props) => {
 
   const deleteCourse = async (e) => {
     e.preventDefault()
-    console.log(`deleting course`)
 
     await axios.delete(`http://localhost:5000/api/courses/${props.match.params.id}`,
     {

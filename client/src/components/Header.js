@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 const Header = (props) => {
 
   const { authenticatedUser } = props.context
-  console.log(authenticatedUser)
 
   return (
     <header>

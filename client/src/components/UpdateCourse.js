@@ -23,7 +23,6 @@ const UpdateCourse = (props) => {
         setDescription(res.data.description)
         setEstimatedTime(res.data.estimatedTime)
         setMaterialsNeeded(res.data.materialsNeeded)
-        console.log(res.data)
       })
       .catch(err => console.log('Error fetching and parsing data', err))
       .finally(() => setIsLoading(false))
@@ -31,7 +30,6 @@ const UpdateCourse = (props) => {
 
   const submit = async (e) => {
     e.preventDefault()
-    console.log(title, description, estimatedTime, materialsNeeded, userId)
 
     const body = {
       title,
@@ -43,7 +41,6 @@ const UpdateCourse = (props) => {
     await dataClass.updateCourse(props.match.params.id, body, props.context.authenticatedUser.emailAddress, props.context.hashedPassword)
       .then((errors) => {
         if (errors.length) {
-          console.log(errors);
           setErrors(errors);
         } else {
           console.log(`Course "${title}" successfully updated`);

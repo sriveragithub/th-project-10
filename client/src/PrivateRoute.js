@@ -6,7 +6,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   return (
     <Consumer>
       { context => {
-        console.log(context.authenticatedUser)
         return (
         <Route
           {...rest}

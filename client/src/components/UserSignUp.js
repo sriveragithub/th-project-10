@@ -23,7 +23,6 @@ const UserSignUp = (props) => {
     data.createUser(user)
       .then(errors => {
         if (errors.length) {
-          console.log(errors)
           setErrors(errors)
         } else {
           props.context.actions.signIn(user.emailAddress, user.password)
