@@ -1,5 +1,6 @@
 import { useEffect } from "react"
 
+// function that signs a user out by calling the signOut context function and pushes them back to home
 const UserSignOut = (props) => {
   useEffect(() => {
     const redirect = () => {

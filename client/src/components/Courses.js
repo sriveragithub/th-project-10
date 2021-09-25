@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 
+// render all courses
 const Courses = () => {
   
   const [data, setData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
+  // axios call to get a list of all courses and set their data to a variable that can be mapped through for rendering
   useEffect(() => {
     axios.get(`http://localhost:5000/api/courses`)
       .then(res => {
@@ -16,6 +18,7 @@ const Courses = () => {
       .finally(() => setIsLoading(false))
   }, [])
 
+  // mapping data into our course Links
   let courses;
   if (data.length) {
     courses = data.map((course) => {

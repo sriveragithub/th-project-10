@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Data from '../Data'
 
+// createCourse functional component using hooks to gather all info needed for submission
 const CreateCourse = (props) => {
 
   const data = new Data()
@@ -12,6 +13,7 @@ const CreateCourse = (props) => {
   const [userId] = useState(props.context.authenticatedUser ? props.context.authenticatedUser.id : null)
   const [errors, setErrors] = useState([])
 
+  // submit function that calls createCourse from our data class constructor
   const submit = async (e) => {
     e.preventDefault()
 
@@ -34,10 +36,12 @@ const CreateCourse = (props) => {
       })
   }
 
+  // cancel button to push user back to home page
   const cancel = () => {
     props.history.push('/')
   }
 
+  // ternary operator checks for any validation errors upon submission
   return (
     <main>
       <div className="wrap">
@@ -62,7 +66,7 @@ const CreateCourse = (props) => {
               <label htmlFor="courseTitle">Course Title</label>
               <input id="courseTitle" name="courseTitle" type="text" onChange={e => {setTitle(e.target.value)}} />
 
-              <p>By Joe Smith</p>
+              <p>By {props.context.authenticatedUser.firstName} {props.context.authenticatedUser.lastName}</p>
 
               <label htmlFor="courseDescription">Course Description</label>
               <textarea

@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import ReactMarkdown from 'react-markdown'
 
+// setting up course detail page as functional component using hooks
 const CourseDetail = (props) => {
 
   const [data, setData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [isAuthenticated] = useState(props.context.authenticatedUser)
 
+  // useEffect to make the call to get our specific course and it's details
   useEffect(() => {
     axios.get(`http://localhost:5000/api/courses/${props.match.params.id}`)
       .then(res => {
@@ -21,6 +23,7 @@ const CourseDetail = (props) => {
       .finally(() => setIsLoading(false))
   }, [props.match.params.id, props.history])
 
+  // submit function that makes a delete call to this specific course (must be from the user who created)
   const deleteCourse = async (e) => {
     e.preventDefault()
 
@@ -47,6 +50,7 @@ const CourseDetail = (props) => {
       });
   }
 
+  // ternary operators used to render and setup the update course, delete course buttons
   return (
     <main>
       <div className="actions--bar">
@@ -60,9 +64,7 @@ const CourseDetail = (props) => {
             ? <Link className="button" to={`/courses/${props.match.params.id}/update`}>
                 Update Course
               </Link>
-            : <Link className="button" to={`/forbidden`}>
-                Update Course
-              </Link>
+            : null
         }
         {
           isLoading

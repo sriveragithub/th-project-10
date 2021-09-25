@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 
+// functional sign-in component that submits email and password to the server for sign-in check
 const UserSignIn = (props) => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  // submission function that calls the signIn function from context with credentials to check if this user exists and can authenticate
   const submit = (e) => {
     e.preventDefault()
     props.context.actions.signIn(email, password)

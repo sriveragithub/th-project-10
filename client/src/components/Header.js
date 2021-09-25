@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom'
 
+// header component that is always render on every page. stores the authenticatedUser info so a user can tell when they are signed in
 const Header = (props) => {
 
   const { authenticatedUser } = props.context

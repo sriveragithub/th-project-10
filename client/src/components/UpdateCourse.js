@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios'
 import Data from '../Data'
 
+// functional component to submit data to update a course
 const UpdateCourse = (props) => {
 
   const dataClass = new Data()
@@ -15,6 +16,7 @@ const UpdateCourse = (props) => {
   const [userId] = useState(props.context.authenticatedUser ? props.context.authenticatedUser.id : null)
   const [errors, setErrors] = useState([])
 
+  // initial call to get the course data for the course in question and setting hooks
   useEffect(() => {
     axios.get(`http://localhost:5000/api/courses/${props.match.params.id}`)
       .then(res => {
@@ -28,6 +30,7 @@ const UpdateCourse = (props) => {
       .finally(() => setIsLoading(false))
   }, [props.match.params.id])
 
+  // submission function to submit the data we want to update to the updateCourse function in our data class constructor
   const submit = async (e) => {
     e.preventDefault()
 
@@ -49,10 +52,12 @@ const UpdateCourse = (props) => {
       })
   }
 
+  // cancel to push the user back to course detail screen
   const cancel = () => {
     props.history.push(`/courses/${props.match.params.id}`)
   }
 
+  // ternary operator for displaying validation errors and loading screen
   return (
     <main>
       <div className="wrap">

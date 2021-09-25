@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Data from '../Data'
 
+// function that allows a user to sign-in and shows errors if some of the information is not correctly submitted
 const UserSignUp = (props) => {
 
   const data = new Data()
@@ -12,6 +13,7 @@ const UserSignUp = (props) => {
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState([])
 
+  // submission function that sends all of the user information into the createUser function in our data class constructor
   const submit = (e) => {
     e.preventDefault()
     const user = {
@@ -34,10 +36,12 @@ const UserSignUp = (props) => {
 
   }
 
+  // cancel button that pushes user to home page
   const cancel = () => {
     props.history.push('/')
   }
 
+  // ternary operator that checks for any errors in the submission process
   return (
     <main>
         <div className="form--centered">

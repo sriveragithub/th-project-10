@@ -1,5 +1,6 @@
 import React from "react";
 
+// component to display when a user attempts to access a page they shouldn't
 const Forbidden = () => {
   return (
     <main>

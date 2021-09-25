@@ -1,5 +1,6 @@
 import React from "react";
 
+// error component for unexpected errors
 const Error = () => {
   return (
     <main>

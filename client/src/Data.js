@@ -1,3 +1,5 @@
+// creating our class constructor to store all of the calls needed to hit the database to retrieve data used on the front end
+
 export default class Data {
 
   api(path, method = 'GET', body = null, requiresAuth = false, credentials = null) {

@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import Cookies from 'js-cookie'
 import Data from './Data'
 
+// creating and exporting context and conser
 export const Context = React.createContext()
 export const Consumer = Context.Consumer
 
+// creating and exporting our provider that includes the async calls to signIn and signOut and store our authenticatedUser information
 export const Provider = (props) => {
 
   const cookie = Cookies.get('authenticatedUser')
@@ -42,7 +44,6 @@ export const Provider = (props) => {
     </Context.Provider> 
   )
 }
-
 
 /**
  * A higher-order component that wraps the provided component in a Context Consumer component.

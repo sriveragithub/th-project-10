@@ -20,6 +20,7 @@ import Forbidden from './components/Forbidden'
 import withContext from './Context'
 import PrivateRoute from './PrivateRoute'
 
+// setting up components to use context
 const UserSignInWithContext = withContext(UserSignIn)
 const UserSignUpWithContext = withContext(UserSignUp)
 const UserSignOutWithContext = withContext(UserSignOut)
@@ -28,6 +29,7 @@ const UpdateCourseWithContext = withContext(UpdateCourse)
 const CourseDetailWithContext = withContext(CourseDetail)
 const HeaderWithContext = withContext(Header)
 
+// setting up all routing including private routes for protected unaccessible routes
 function App() {
   return (
     <BrowserRouter>

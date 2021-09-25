@@ -1,5 +1,6 @@
 import React from 'react'
 
+// displays a notfound component for unidentifiable routes
 const NotFound = () => {
   return (
     <main>
